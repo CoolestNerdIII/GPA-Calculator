@@ -32,25 +32,7 @@ def main():
 		calculateGPA()	
 	elif (setting == 2):
 		estimateGPA()
-	#Receive Input from the user, and add it to a list of dictionaries
-	#while(cont):
-	#	name = raw_input('Enter the course name: ')
-	#	credits = int(raw_input('How many credits is this course: '))
-	#	totalCredits = totalCredits + credits
-	#	grade = raw_input('What was the letter grade for the course (Include + or -): ')
-	#	gradePoints = calculatePoints(grade)*credits
-	#	totalPoints = totalPoints + gradePoints
-	#	course = {'Course': name, 'Credits': credits, 'GradePoints': gradePoints}
-	#	courses.append(course)
-	#	status = raw_input('Would you like to enter another class? (y/n): ')
-	#	if (status == 'n' or status == 'N'):
-	#		cont = False
 
-	#gpa = totalPoints / totalCredits
-	#print ('Your gpa is a: ' + str(gpa))
-	#for course in courses:
-	#		print(course)
-#ToD0
 def calculateGPA():
 	cont = True
 	courses = []
@@ -76,19 +58,23 @@ def calculateGPA():
 	for course in courses:
 		print(course)
 
+#ToDo
+#WARNING: NOT FINISHED
 def estimateGPA():
 	cont = True
 	courses = []
 	
-	totalPoints = 0
 	currentGPA = raw_input('Enter current cumulative gpa: ')
 	totalCredits = raw_input('Enter the number of credits taken to date: ')
+	print('Now, Enter your expected information for the upcoming semester \n\n')
+	totalPoints = currentGPA * totalCredits
+
 	#Receive Input from the user, and add it to a list of dictionaries
 	while(cont):
 		name = raw_input('Enter the course name: ')
 		credits = int(raw_input('How many credits is this course: '))
 		totalCredits = totalCredits + credits
-		grade = raw_input('What was the letter grade for the course (Include + or -): ')
+		grade = raw_input('What is the expected letter grade for the course (Include + or -): ')
 		gradePoints = calculatePoints(grade)*credits
 		totalPoints = totalPoints + gradePoints
 		course = {'Course': name, 'Credits': credits, 'GradePoints': gradePoints}
@@ -98,9 +84,7 @@ def estimateGPA():
 			cont = False
 
 	gpa = totalPoints / totalCredits
-	print ('Your gpa is a: ' + str(gpa))
-	for course in courses:
-		print(course)
+	print ('Your gpa will be a: ' + str(gpa))
 
 def calculatePoints(grade):
 	grade = grade.strip()
