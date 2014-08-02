@@ -7,21 +7,15 @@
 //
 
 #import "CourseManagerViewController.h"
+#import "CourseCell.h"
 
 @interface CourseManagerViewController ()
+@property (strong, nonatomic) NSMutableArray * courses;
 
 @end
 
 @implementation CourseManagerViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -32,6 +26,19 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+    
+    if (self.courses.count ==0) {
+        //NSDictionary * tmp = [[NSDictionary alloc] initWithObjectsAndKeys:@"", @"Name", @"", "Grade", @"", @"CreditHours",  nil];
+        NSDictionary *tmp = @{
+          @"Name": @"",
+          @"Grade": @"",
+          @"CreditHours": @"",
+        };
+        [self.courses addObject:tmp];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -44,37 +51,98 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return self.courses.count + 1;
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    static NSString *CellIdentifier = @"CourseCell";
+    static NSString *InsertCellIdentifier = @"InsertCell";
+
+    
+    CourseCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    UITableViewCell *insertCell = [tableView dequeueReusableCellWithIdentifier:InsertCellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
     
     return cell;
 }
-*/
 
-/*
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == self.courses.count)
+        return 44;
+    else
+        return 117;
+    
+}
+
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    if (indexPath.row == self.courses.count)
+    {
+        [self setEditing:YES animated:YES];
+    }
+
+}
+
+#pragma mark - Table View Editting
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.editing) {
+        
+            if (indexPath.row == self.courses.count) {
+                return UITableViewCellEditingStyleInsert;
+            }
+            else{
+                return UITableViewCellEditingStyleDelete;
+            }
+        
+    }
+    
+    return UITableViewCellEditingStyleNone;
+    
+}
+
+
+#pragma mark - Insert New Cell
+-(void) insertNewObject
+{
+    
+    NSDictionary *tmp = @{
+                          @"Name": @"",
+                          @"Grade": @"",
+                          @"CreditHours": @"",
+                          };
+    [self.courses insertObject:tmp atIndex:0];
+    
+
+        NSIndexPath * indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        
+        //Update the table with the new data
+        [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        //reload specific section animated
+        NSRange range   = NSMakeRange(indexPath.section, 1);
+        NSIndexSet *sectionToReload = [NSIndexSet indexSetWithIndexesInRange:range];
+        [self.tableView reloadSections:sectionToReload withRowAnimation:UITableViewRowAnimationFade];
+    
+}
 
 /*
 // Override to support editing the table view.
