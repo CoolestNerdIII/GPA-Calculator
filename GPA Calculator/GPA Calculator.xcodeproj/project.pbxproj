@@ -474,6 +474,7 @@
 				69709EE3198ADB0800FD9BC2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		69709EE4198ADB0800FD9BC2 /* Build configuration list for PBXNativeTarget "GPA CalculatorTests" */ = {
 			isa = XCConfigurationList;
@@ -482,6 +483,7 @@
 				69709EE6198ADB0800FD9BC2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

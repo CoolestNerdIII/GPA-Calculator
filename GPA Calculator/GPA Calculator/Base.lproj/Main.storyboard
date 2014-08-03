@@ -77,7 +77,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CourseCell" rowHeight="117" id="IOS-Zd-pSz" customClass="CourseCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="CourseCell" rowHeight="117" id="IOS-Zd-pSz" customClass="CourseCell">
                                 <rect key="frame" x="0.0" y="86" width="320" height="117"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IOS-Zd-pSz" id="mgp-fd-3mp">
@@ -110,7 +110,7 @@
                                     <outlet property="numberOfCredits" destination="OKo-GL-v8i" id="n9E-gw-L5T"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="NewCourse" rowHeight="44" id="8ud-Qd-vUx" customClass="CourseCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="InsertCell" rowHeight="44" id="8ud-Qd-vUx">
                                 <rect key="frame" x="0.0" y="203" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8ud-Qd-vUx" id="Eqo-SD-WuP">
@@ -126,19 +126,32 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="CalculateCell" rowHeight="44" id="w9D-UU-N8W">
+                                <rect key="frame" x="0.0" y="247" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="w9D-UU-N8W" id="sPH-ze-Uf5">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Calculate GPA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tni-AK-tOC">
+                                            <rect key="frame" x="20" y="11" width="280" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="QI5-qY-iPH" kind="push" id="pId-Ha-Ued"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="0XE-7U-oqw" id="H1i-0F-Fvg"/>
                             <outlet property="delegate" destination="0XE-7U-oqw" id="pkU-zE-0xv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Enter Your Courses" id="Xku-CA-k6L">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="done" id="g6X-Cp-aFf">
-                            <connections>
-                                <segue destination="QI5-qY-iPH" kind="push" id="oKq-CN-6uS"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Enter Your Courses" id="Xku-CA-k6L"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h6F-5S-KxG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

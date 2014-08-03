@@ -10,4 +10,8 @@
 
 @interface CourseManagerViewController : UITableViewController
 
+@property (strong, nonatomic) NSMutableArray * courses;
+
+@property (nonatomic) bool editMode;
+
 @end

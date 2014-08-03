@@ -10,12 +10,11 @@
 #import "CourseCell.h"
 
 @interface CourseManagerViewController ()
-@property (strong, nonatomic) NSMutableArray * courses;
 
 @end
 
 @implementation CourseManagerViewController
-
+@synthesize courses, editMode;
 
 - (void)viewDidLoad
 {
@@ -26,19 +25,23 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    courses = [[NSMutableArray alloc] init];
     
+    if (courses.count == 0) {
+        NSDictionary *tmp = @{
+                              @"Name": @"",
+                              @"Grade": @"",
+                              @"CreditHours": @"",
+                              };
+        
+        [courses addObject:tmp];
+    }
+    
+    editMode = FALSE;
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    if (self.courses.count ==0) {
-        //NSDictionary * tmp = [[NSDictionary alloc] initWithObjectsAndKeys:@"", @"Name", @"", "Grade", @"", @"CreditHours",  nil];
-        NSDictionary *tmp = @{
-          @"Name": @"",
-          @"Grade": @"",
-          @"CreditHours": @"",
-        };
-        [self.courses addObject:tmp];
-    }
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,7 +61,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return self.courses.count + 1;
+    return courses.count + 2;
 }
 
 
@@ -66,18 +69,45 @@
 {
     static NSString *CellIdentifier = @"CourseCell";
     static NSString *InsertCellIdentifier = @"InsertCell";
+    static NSString *CalculateCellIdentifier = @"CalculateCell";
 
+    if (indexPath.row == courses.count){
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:InsertCellIdentifier forIndexPath:indexPath];
+        
+        if (!cell) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:InsertCellIdentifier];
+        }
+        
+        return cell;
+    }
+    else if (indexPath.row == courses.count+1){
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CalculateCellIdentifier forIndexPath:indexPath];
+        
+        if (!cell) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CalculateCellIdentifier];
+        }
     
-    CourseCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    UITableViewCell *insertCell = [tableView dequeueReusableCellWithIdentifier:InsertCellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
+        
+        return cell;
+    }
+    else{
+        CourseCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        
+        if (!cell) {
+            cell = [[CourseCell alloc]init];
+            
+        }
+        
+        NSDictionary *tmp = [courses objectAtIndex:indexPath.row];
+        cell.courseName.text = [tmp objectForKey:@"Name"];
+        cell.courseGrade.text = [tmp objectForKey:@"Grade"];
+        cell.numberOfCredits.text = [tmp objectForKey:@"CreditHours"];
+        return cell;
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == self.courses.count)
+    if (indexPath.row >= courses.count)
         return 44;
     else
         return 117;
@@ -86,10 +116,13 @@
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    if (indexPath.row == self.courses.count)
+    if (indexPath.row == courses.count)
     {
-        [self setEditing:YES animated:YES];
+        //[self setEditing:YES animated:YES];
+        editMode = TRUE;
+        NSLog(editMode ? @"Editting" : @"Not Editting");
     }
+    NSLog(editMode ? @"Editting" : @"Not Editting");
 
 }
 
@@ -104,9 +137,10 @@
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    /*
     if (self.editing) {
         
-            if (indexPath.row == self.courses.count) {
+            if (indexPath.row == courses.count) {
                 return UITableViewCellEditingStyleInsert;
             }
             else{
@@ -114,48 +148,58 @@
             }
         
     }
+    */
     
+    if (editMode) {
+        
+        if (indexPath.row == courses.count) {
+            return UITableViewCellEditingStyleInsert;
+        }
+        else if (indexPath.row == courses.count+1)
+            return UITableViewCellEditingStyleNone;
+        else{
+            return UITableViewCellEditingStyleDelete;
+        }
+        
+    }
     return UITableViewCellEditingStyleNone;
     
 }
 
 
 #pragma mark - Insert New Cell
--(void) insertNewObject
-{
-    
-    NSDictionary *tmp = @{
-                          @"Name": @"",
-                          @"Grade": @"",
-                          @"CreditHours": @"",
-                          };
-    [self.courses insertObject:tmp atIndex:0];
-    
 
-        NSIndexPath * indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-        
-        //Update the table with the new data
-        [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        
-        //reload specific section animated
-        NSRange range   = NSMakeRange(indexPath.section, 1);
-        NSIndexSet *sectionToReload = [NSIndexSet indexSetWithIndexesInRange:range];
-        [self.tableView reloadSections:sectionToReload withRowAnimation:UITableViewRowAnimationFade];
-    
-}
-
-/*
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+        [courses removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        NSDictionary *tmp = @{
+                              @"Name": @"",
+                              @"Grade": @"",
+                              @"CreditHours": @"",
+                              };
+        
+        [courses insertObject:tmp atIndex:courses.count];
+        
+        
+        NSIndexPath * indexPath = [NSIndexPath indexPathForRow:courses.count inSection:0];
+        
+        //Update the table with the new data
+        [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        [self.tableView reloadData];
+        //[self setEditing:NO animated:YES];
+        editMode = FALSE;
+
+        
     }   
 }
-*/
+
 
 /*
 // Override to support rearranging the table view.
