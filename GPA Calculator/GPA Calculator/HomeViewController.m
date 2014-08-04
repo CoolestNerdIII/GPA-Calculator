@@ -7,12 +7,14 @@
 //
 
 #import "HomeViewController.h"
+#import "CourseManagerViewController.h"
 
 @interface HomeViewController ()
 
 @end
 
 @implementation HomeViewController
+@synthesize courses;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -26,6 +28,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    courses = [[NSMutableArray alloc] init];
+    
+    if (courses.count == 0) {
+        NSDictionary *tmp = @{
+                              @"Name": @"",
+                              @"Grade": @"",
+                              @"CreditHours": @"",
+                              @"GradePoints": @"",
+                              };
+        
+        [courses addObject:tmp];
+    }
     // Do any additional setup after loading the view.
 }
 
@@ -35,7 +50,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -43,7 +58,11 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"calculateSegue"]) {
+        CourseManagerViewController *detailViewController = segue.destinationViewController;
+        detailViewController.courses = courses;
+    }
 }
-*/
+
 
 @end

@@ -10,4 +10,6 @@
 
 @interface gradeCalculator : NSObject
 
+-(double)Calculate:(NSMutableArray*)values;
+
 @end

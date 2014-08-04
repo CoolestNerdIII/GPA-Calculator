@@ -24,6 +24,7 @@
 		69709EEC198ADF2A00FD9BC2 /* gradeCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 69709EEB198ADF2A00FD9BC2 /* gradeCalculator.m */; };
 		69709EEF198AE00700FD9BC2 /* CourseManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69709EEE198AE00700FD9BC2 /* CourseManagerViewController.m */; };
 		69709EF2198AE1B500FD9BC2 /* CourseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69709EF1198AE1B500FD9BC2 /* CourseCell.m */; };
+		69E1A16E198FDDD60008B867 /* StatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69E1A16D198FDDD60008B867 /* StatsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,8 @@
 		69709EEE198AE00700FD9BC2 /* CourseManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseManagerViewController.m; sourceTree = "<group>"; };
 		69709EF0198AE1B500FD9BC2 /* CourseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseCell.h; sourceTree = "<group>"; };
 		69709EF1198AE1B500FD9BC2 /* CourseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseCell.m; sourceTree = "<group>"; };
+		69E1A16C198FDDD60008B867 /* StatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatsViewController.h; sourceTree = "<group>"; };
+		69E1A16D198FDDD60008B867 /* StatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +127,8 @@
 				69709EC1198ADB0800FD9BC2 /* AppDelegate.h */,
 				69709EC2198ADB0800FD9BC2 /* AppDelegate.m */,
 				69709EC4198ADB0800FD9BC2 /* Main.storyboard */,
+				69E1A16C198FDDD60008B867 /* StatsViewController.h */,
+				69E1A16D198FDDD60008B867 /* StatsViewController.m */,
 				69709EF0198AE1B500FD9BC2 /* CourseCell.h */,
 				69709EF1198AE1B500FD9BC2 /* CourseCell.m */,
 				69709EED198AE00700FD9BC2 /* CourseManagerViewController.h */,
@@ -266,6 +271,7 @@
 			files = (
 				69709EC3198ADB0800FD9BC2 /* AppDelegate.m in Sources */,
 				69709EEC198ADF2A00FD9BC2 /* gradeCalculator.m in Sources */,
+				69E1A16E198FDDD60008B867 /* StatsViewController.m in Sources */,
 				69709EF2198AE1B500FD9BC2 /* CourseCell.m in Sources */,
 				69709EEF198AE00700FD9BC2 /* CourseManagerViewController.m in Sources */,
 				69709EBF198ADB0800FD9BC2 /* main.m in Sources */,

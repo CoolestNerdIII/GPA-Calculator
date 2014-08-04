@@ -17,8 +17,11 @@
 
 -(double)Calculate:(NSMutableArray *) values{
     double gpa = 0.0;
-    int numCredits;
-    int totalPoints;
+    int totalCredits = 0;
+    double totalPoints = 0;
+    
+    double gradePoints;
+    int credits;
     
     if (values.count == 0)
         return 0;
@@ -26,9 +29,18 @@
     NSDictionary * value;
     
     for (value in values) {
+        credits = [[value objectForKey:@"CreditHours"] intValue];
+        totalCredits = totalCredits + credits;
+        gradePoints =credits * [self getPoints:[value objectForKey:@"Grade"]];
+        totalPoints += gradePoints;
     
     }
+    gpa = totalPoints / totalCredits;
     
+    
+//    cell.courseName.text = [tmp objectForKey:@"Name"];
+//    cell.courseGrade.text = [tmp objectForKey:@"Grade"];
+//    cell.numberOfCredits.text = [tmp objectForKey:@"CreditHours"];
     return gpa;
 }
 

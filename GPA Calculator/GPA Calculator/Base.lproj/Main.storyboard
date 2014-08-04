@@ -35,7 +35,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="0XE-7U-oqw" kind="push" id="VyM-Hx-CQC"/>
+                                    <segue destination="0XE-7U-oqw" kind="push" identifier="calculateSegue" id="VyM-Hx-CQC"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nIX-oI-fkE">
@@ -72,13 +72,13 @@
         <scene sceneID="oJW-KG-zV8">
             <objects>
                 <tableViewController id="0XE-7U-oqw" customClass="CourseManagerViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="117" sectionHeaderHeight="22" sectionFooterHeight="22" id="H7a-Ij-kur">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="H7a-Ij-kur">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="CourseCell" rowHeight="117" id="IOS-Zd-pSz" customClass="CourseCell">
-                                <rect key="frame" x="0.0" y="86" width="320" height="117"/>
+                                <rect key="frame" x="0.0" y="119" width="320" height="117"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IOS-Zd-pSz" id="mgp-fd-3mp">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="116"/>
@@ -111,7 +111,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="InsertCell" rowHeight="44" id="8ud-Qd-vUx">
-                                <rect key="frame" x="0.0" y="203" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="236" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8ud-Qd-vUx" id="Eqo-SD-WuP">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -127,7 +127,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="CalculateCell" rowHeight="44" id="w9D-UU-N8W">
-                                <rect key="frame" x="0.0" y="247" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="280" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="w9D-UU-N8W" id="sPH-ze-Uf5">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -142,10 +142,11 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="QI5-qY-iPH" kind="push" id="pId-Ha-Ued"/>
+                                    <segue destination="QI5-qY-iPH" kind="push" identifier="statsSegue" id="pId-Ha-Ued"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
+                        <sections/>
                         <connections>
                             <outlet property="dataSource" destination="0XE-7U-oqw" id="H1i-0F-Fvg"/>
                             <outlet property="delegate" destination="0XE-7U-oqw" id="pkU-zE-0xv"/>
@@ -157,10 +158,10 @@
             </objects>
             <point key="canvasLocation" x="1654" y="-266"/>
         </scene>
-        <!--View Controller - Stats-->
+        <!--Stats View Controller - Stats-->
         <scene sceneID="44u-D4-xIu">
             <objects>
-                <viewController id="QI5-qY-iPH" sceneMemberID="viewController">
+                <viewController id="QI5-qY-iPH" customClass="StatsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="en9-IO-tWI"/>
                         <viewControllerLayoutGuide type="bottom" id="vLY-9e-v8r"/>
@@ -168,9 +169,27 @@
                     <view key="view" contentMode="scaleToFill" id="Jey-9f-6pq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Your GPA IS: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6SJ-7h-dz5">
+                                <rect key="frame" x="95" y="143" width="130" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0.00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UB1-4z-Kuk">
+                                <rect key="frame" x="119" y="188" width="83" height="38"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Stats" id="HAI-SP-07n"/>
+                    <connections>
+                        <outlet property="gradeValue" destination="UB1-4z-Kuk" id="24O-L9-egy"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zSm-As-Iae" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

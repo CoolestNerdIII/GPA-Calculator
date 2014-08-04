@@ -8,13 +8,14 @@
 
 #import "CourseManagerViewController.h"
 #import "CourseCell.h"
+#import "StatsViewController.h"
 
 @interface CourseManagerViewController ()
 
 @end
 
 @implementation CourseManagerViewController
-@synthesize courses, editMode;
+@synthesize courses;
 
 - (void)viewDidLoad
 {
@@ -25,23 +26,22 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    courses = [[NSMutableArray alloc] init];
     
     if (courses.count == 0) {
         NSDictionary *tmp = @{
                               @"Name": @"",
                               @"Grade": @"",
                               @"CreditHours": @"",
+                              @"GradePoints": @"",
                               };
         
-        [courses addObject:tmp];
+        [courses insertObject:tmp atIndex:0];
     }
     
-    editMode = FALSE;
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -50,47 +50,65 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void) saveInformation
+{
+    NSArray *cells = [self.tableView visibleCells];
+    
+    NSString *name;
+    NSString *grade;
+    NSString *numCredits;
+    NSUInteger index = 0;
+    
+    for (CourseCell *cell in cells) {
+        if ([cell class] ==[CourseCell class]) {
+            
+            name = [[cell courseName] text];
+            grade = [[cell courseGrade] text];
+            numCredits = [[cell numberOfCredits] text];
+            
+            NSDictionary *tmp = @{
+                                  @"Name": name,
+                                  @"Grade": grade,
+                                  @"CreditHours": numCredits,
+                                  };
+            
+            [courses removeObjectAtIndex:index];
+            [courses insertObject:tmp atIndex:index];
+            
+            index++;
+        }
+        else
+            break;
+    }
+    
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return courses.count + 2;
+    if (section == 0)
+        return courses.count;
+    else if (section == 1)
+        return  2;
+    else
+        return 0;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"CourseCell";
-    static NSString *InsertCellIdentifier = @"InsertCell";
-    static NSString *CalculateCellIdentifier = @"CalculateCell";
-
-    if (indexPath.row == courses.count){
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:InsertCellIdentifier forIndexPath:indexPath];
-        
-        if (!cell) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:InsertCellIdentifier];
-        }
-        
-        return cell;
-    }
-    else if (indexPath.row == courses.count+1){
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CalculateCellIdentifier forIndexPath:indexPath];
-        
-        if (!cell) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CalculateCellIdentifier];
-        }
     
-        
-        return cell;
-    }
-    else{
+    if (indexPath.section == 0) {
+        static NSString *CellIdentifier = @"CourseCell";
+
         CourseCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
         
         if (!cell) {
@@ -104,10 +122,38 @@
         cell.numberOfCredits.text = [tmp objectForKey:@"CreditHours"];
         return cell;
     }
+    else if (indexPath.section == 1){
+        
+        if (indexPath.row == 0) {
+            static NSString *InsertCellIdentifier = @"InsertCell";
+
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:InsertCellIdentifier forIndexPath:indexPath];
+            
+            if (!cell) {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:InsertCellIdentifier];
+            }
+            
+            return cell;
+        }
+        else if (indexPath.row == 1){
+            static NSString *CalculateCellIdentifier = @"CalculateCell";
+
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CalculateCellIdentifier forIndexPath:indexPath];
+            
+            if (!cell) {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CalculateCellIdentifier];
+            }
+            
+            
+            return cell;
+        }
+        
+    }
+    return nil;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row >= courses.count)
+    if (indexPath.section == 1)
         return 44;
     else
         return 117;
@@ -115,15 +161,15 @@
 }
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
-
-    if (indexPath.row == courses.count)
+    
+    if (indexPath.section == 1 && indexPath.row == 0)
     {
-        //[self setEditing:YES animated:YES];
-        editMode = TRUE;
-        NSLog(editMode ? @"Editting" : @"Not Editting");
+        [self setEditing:YES animated:YES];
+        //        editMode = TRUE;
+        //        NSLog(editMode ? @"Editting" : @"Not Editting");
     }
-    NSLog(editMode ? @"Editting" : @"Not Editting");
-
+    //    NSLog(editMode ? @"Editting" : @"Not Editting");
+    
 }
 
 #pragma mark - Table View Editting
@@ -137,33 +183,27 @@
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /*
     if (self.editing) {
         
-            if (indexPath.row == courses.count) {
-                return UITableViewCellEditingStyleInsert;
-            }
-            else{
-                return UITableViewCellEditingStyleDelete;
-            }
-        
-    }
-    */
-    
-    if (editMode) {
-        
-        if (indexPath.row == courses.count) {
+        if (indexPath.section == 1 && indexPath.row == 0) {
             return UITableViewCellEditingStyleInsert;
         }
-        else if (indexPath.row == courses.count+1)
-            return UITableViewCellEditingStyleNone;
         else{
-            return UITableViewCellEditingStyleDelete;
+            //return UITableViewCellEditingStyleDelete;
+            return UITableViewCellEditingStyleNone;
         }
         
     }
+    
     return UITableViewCellEditingStyleNone;
     
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 1 && indexPath.row == 0) {
+        return YES;
+    }
+    return NO;
 }
 
 
@@ -174,50 +214,53 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        [courses removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        //[courses removeObjectAtIndex:indexPath.row];
+        //[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        [self saveInformation];
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         NSDictionary *tmp = @{
                               @"Name": @"",
                               @"Grade": @"",
                               @"CreditHours": @"",
+                              @"GradePoints": @"",
                               };
         
         [courses insertObject:tmp atIndex:courses.count];
         
         
-        NSIndexPath * indexPath = [NSIndexPath indexPathForRow:courses.count inSection:0];
+        NSIndexPath * indexPath = [NSIndexPath indexPathForRow:courses.count-1 inSection:0];
         
         //Update the table with the new data
         [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         
         [self.tableView reloadData];
-        //[self setEditing:NO animated:YES];
-        editMode = FALSE;
-
+        [self setEditing:NO animated:YES];
+        //editMode = FALSE;
         
-    }   
+        
+    }
 }
 
 
 /*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+ {
+ }
+ */
 
 /*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -225,7 +268,13 @@
 {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"statsSegue"]) {
+        
+        [self saveInformation];
+        StatsViewController *detailViewController = segue.destinationViewController;
+        detailViewController.courses = courses;
+    }
 }
-*/
+
 
 @end
