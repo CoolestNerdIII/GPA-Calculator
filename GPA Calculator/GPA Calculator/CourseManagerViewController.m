@@ -127,7 +127,7 @@
         if (indexPath.row == 0) {
             static NSString *InsertCellIdentifier = @"InsertCell";
 
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:InsertCellIdentifier forIndexPath:indexPath];
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"InsertCell" forIndexPath:indexPath];
             
             if (!cell) {
                 cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:InsertCellIdentifier];
@@ -162,8 +162,10 @@
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    NSLog(@"Button pressed at section %ld and row %ld", (long)indexPath.section, (long)indexPath.row);
     if (indexPath.section == 1 && indexPath.row == 0)
     {
+        NSLog(@"Button Pressed");
         [self setEditing:YES animated:YES];
         //        editMode = TRUE;
         //        NSLog(editMode ? @"Editting" : @"Not Editting");
@@ -218,6 +220,7 @@
         //[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        NSLog(@"Preparing to insert.");
         [self saveInformation];
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         NSDictionary *tmp = @{
@@ -229,7 +232,7 @@
         
         [courses insertObject:tmp atIndex:courses.count];
         
-        
+        //Add to the end of the array and the end of table in that section
         NSIndexPath * indexPath = [NSIndexPath indexPathForRow:courses.count-1 inSection:0];
         
         //Update the table with the new data
